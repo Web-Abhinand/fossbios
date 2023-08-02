@@ -1,13 +1,27 @@
+import axios from 'axios';
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate()
   
     const handleSubmit = (event) => {
       event.preventDefault();
-      // Perform login logic with email and password
+      axios.post('http://127.0.0.1:5000/login', {
+        email,
+        password,
+        }).then((response) => {
+            console.log(response);
+            if (response.status === 200) {
+                const { token } = response.data;
+                localStorage.setItem('token', token); 
+                navigate('/dashboard');
+              }
+        }).catch((err) => {
+            console.log(err);
+        });
       console.log('Login: ', email, password);
     };
   

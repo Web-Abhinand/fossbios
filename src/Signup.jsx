@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const Signup = () => {
     const nameRef = useRef();
@@ -7,6 +7,7 @@ const Signup = () => {
     const passwordRef = useRef();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,6 +21,7 @@ const Signup = () => {
             password,
         }).then((response) => {
             console.log(response);
+            navigate('/login');
         }).catch((err) => {
             console.log(err);
         });
@@ -45,11 +47,22 @@ const Signup = () => {
                     <label>Password</label>
                     <input type="password" ref={passwordRef} required />
                 </div>
+                <div>
+                    <label>Roll No</label>
+                    <input type="text" required />
+                </div>
+                <div>
+                    <select name="roles" id="roles">
+                        <option value="member">Member</option>
+                        <option value="catogery_lead">Catogery Lead</option>
+                        <option value="lead">Lead</option>
+                    </select>
+                </div>
                 <button disabled={loading} type="submit">
                     Sign Up
                 </button>
                 <div>
-                    Already have an account? <Link to="/login">Login</Link>
+                    Already have an account? <Link to="/">Login</Link>
                 </div>
             </form>
         </div>
