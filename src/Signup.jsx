@@ -5,23 +5,31 @@ const Signup = () => {
     const nameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
+    const rollNoRef = useRef();
+    const roleRef = useRef();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
+        console.log('hello world');
         e.preventDefault();
         const name = nameRef.current.value;
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
-
+        const rollNo = rollNoRef.current.value;
+        const role =roleRef.current.value;
+        console.log(name);
         axios.post('http://127.0.0.1:5000/register', {
             name,
             email,
             password,
+            rollNo,
+            role
         }).then((response) => {
             console.log(response);
-            navigate('/login');
+            console.log('hello world');
+            navigate('/');
         }).catch((err) => {
             console.log(err);
         });
@@ -49,10 +57,10 @@ const Signup = () => {
                 </div>
                 <div>
                     <label>Roll No</label>
-                    <input type="text" required />
+                    <input type="text" required ref={rollNoRef}/>
                 </div>
                 <div>
-                    <select name="roles" id="roles">
+                    <select name="roles" id="roles" ref={roleRef}>
                         <option value="member">Member</option>
                         <option value="catogery_lead">Catogery Lead</option>
                         <option value="lead">Lead</option>
