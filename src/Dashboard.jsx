@@ -3,6 +3,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import LeaveRequestForm from './LeaveRequestForm';
 
 const Dashboard = () => {
   const [allUsersDetails, setallUsersDetails] = useState([]);
@@ -112,7 +113,7 @@ const Dashboard = () => {
           ))}
         </ul>
       ) : (null)}
-
+      <LeaveRequestForm />
     </>
   );
 };
