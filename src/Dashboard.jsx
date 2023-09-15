@@ -1,7 +1,6 @@
-import React from 'react'
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import LeaveRequestForm from './LeaveRequestForm';
 
@@ -60,8 +59,7 @@ const Dashboard = () => {
       });
     console.log(currentUser);
   }, []);
-
-
+  
   const handleApproveUser = async (email) => {
     try {
       // Send a PUT request to your server to approve the user based on email 
@@ -81,7 +79,6 @@ const Dashboard = () => {
       console.error('User approval failed:', error);
     }
   };
-
    // Filter users based on the role of the logged-in user
    const filteredUsers = allUsersDetails.filter(user => {
     if (userRole === 'lead') {
