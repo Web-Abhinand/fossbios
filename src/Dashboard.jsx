@@ -3,13 +3,17 @@ import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import LeaveRequestForm from './LeaveRequestForm';
-
+import Header from './Header';
 const Dashboard = () => {
   const [allUsersDetails, setallUsersDetails] = useState([]);
   const [userRole, setUserRole] = useState('');
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
   const [Email, setEmail] = useState('');
+  const [CurrentUserLeaveDetails, setCurrentUserLeaveDetails] = useState([]);
+
+
+
   const handleLogout = async () => {
     try {
       await axios.post('http://127.0.0.1:5000/logout');
@@ -47,7 +51,6 @@ const Dashboard = () => {
         console.error('Error fetching user role:', error);
       });
     console.log(userRole);
-
     //code to fetch current user details
     axios.get(`http://127.0.0.1:5000/currentUserDetails/${email}`)
       .then(response => {
@@ -57,9 +60,20 @@ const Dashboard = () => {
       .catch(error => {
         console.error('Error fetching user role:', error);
       });
+    //code to fetch curren user's leave requests details
+    axios.get(`http://127.0.0.1:5000/currentUserLeaveRequests/${email}`)
+      .then(response => {
+        console.log(response.data, 'current user leave details response');
+        setCurrentUserLeaveDetails(response.data);
+        console.log(CurrentUserLeaveDetails, 'current user leave details');
+      })
+      .catch(error => {
+        console.error('Error fetching user role:', error);
+      });
+
     console.log(currentUser);
   }, []);
-  
+
   const handleApproveUser = async (email) => {
     try {
       // Send a PUT request to your server to approve the user based on email 
@@ -79,8 +93,8 @@ const Dashboard = () => {
       console.error('User approval failed:', error);
     }
   };
-   // Filter users based on the role of the logged-in user
-   const filteredUsers = allUsersDetails.filter(user => {
+  // Filter users based on the role of the logged-in user
+  const filteredUsers = allUsersDetails.filter(user => {
     if (userRole === 'lead') {
       // Show all other users except the logged-in user
       return user.email !== Email && user.role !== 'lead';
@@ -93,8 +107,10 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1>{Email}</h1>
-      <button onClick={handleLogout}>Log Out</button>
+      <Header handleLogout={handleLogout}/>
+      <div>
+        <h2>{Email}</h2>
+      </div>
       <h2>User Emails</h2>
       {userRole === 'lead' || userRole === 'category_lead' ? (
         <ul>
@@ -110,6 +126,16 @@ const Dashboard = () => {
           ))}
         </ul>
       ) : (null)}
+      <div>
+        {CurrentUserLeaveDetails.map((leaveRequest, index) => (
+          <div key={index}>
+            <h3>Leave Request Details</h3>
+            <p>Leave Date: {leaveRequest.date}</p>
+            <p>Reason: {leaveRequest.reason}</p>
+            <p>Status: {leaveRequest.leaveApproved ? "Approved" : "Not Approved"}</p>
+          </div>
+        ))}
+      </div>
       <LeaveRequestForm />
     </>
   );
