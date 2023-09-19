@@ -26,7 +26,7 @@ function Login() {
     };
   
     return (
-      <div className={styles.login_container}>
+      <div className={styles.login_container} style={{width:'15%',margin:'0 auto',position:'absolute',top:"30%",left:'40%'}}>
         <form onSubmit={handleSubmit} className={styles.loginform}>
           <h2>Login</h2>
           <div className={styles.loginform_input_div}>

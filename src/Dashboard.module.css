@@ -1,0 +1,58 @@
+/* Dashboard.module.css */
+  
+  /* Define styles for the email heading */
+  .emailHeading {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  /* Define styles for the list of user emails */
+  .userList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  /* Define styles for each user list item */
+  .userListItem {
+    margin-bottom: 10px;
+  }
+  
+  /* Define styles for the "Approved" label */
+  .approvedLabel {
+    color: green; /* Example color for approved users */
+  }
+  
+  /* Define styles for the "Approve" button */
+  .approveButton {
+    background-color: #007bff; /* Example background color */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .approveButton:hover {
+    background-color: #0056b3; /* Example hover background color */
+  }
+  
+  /* Define styles for the leave request details container */
+  .leaveRequestContainer {
+    margin-top: 20px;
+  }
+  
+  /* Define styles for the leave request heading */
+  .leaveRequestHeading {
+    font-size: 20px;
+  }
+  
+  /* Define styles for leave request details */
+  .leaveRequestDetails {
+    margin-top: 10px;
+  }
+  
+  /* Define styles for the "Not Approved" label */
+  .notApprovedLabel {
+    color: red; /* Example color for not approved leave requests */
+  }
+  

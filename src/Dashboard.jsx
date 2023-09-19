@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import LeaveRequestForm from './LeaveRequestForm';
 import Header from './Header';
+import styles from './Dashboard.module.css';
+import avatar from './assets/avatar.svg';
 const Dashboard = () => {
   const [allUsersDetails, setallUsersDetails] = useState([]);
   const [userRole, setUserRole] = useState('');
@@ -11,7 +13,6 @@ const Dashboard = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [Email, setEmail] = useState('');
   const [CurrentUserLeaveDetails, setCurrentUserLeaveDetails] = useState([]);
-
 
 
   const handleLogout = async () => {
@@ -107,36 +108,55 @@ const Dashboard = () => {
 
   return (
     <>
-      <Header handleLogout={handleLogout}/>
-      <div>
-        <h2>{Email}</h2>
-      </div>
-      <h2>User Emails</h2>
-      {userRole === 'lead' || userRole === 'category_lead' ? (
-        <ul>
-          {filteredUsers.map((user, index) => (
-            <li key={index}>
-              Email: {user.email}{' '}
-              {user.approved ? (
-                <span>Approved</span>
-              ) : (
-                <button onClick={() => handleApproveUser(user.email)}>Approve</button>
-              )}
-            </li>
-          ))}
-        </ul>
-      ) : (null)}
-      <div>
-        {CurrentUserLeaveDetails.map((leaveRequest, index) => (
-          <div key={index}>
-            <h3>Leave Request Details</h3>
-            <p>Leave Date: {leaveRequest.date}</p>
-            <p>Reason: {leaveRequest.reason}</p>
-            <p>Status: {leaveRequest.leaveApproved ? "Approved" : "Not Approved"}</p>
+      <div className={styles.container}>
+        <Header handleLogout={handleLogout} />
+        <div>
+          <div style={{width:'20%',margin:'3rem auto'}}>
+            <img src={avatar} alt="avatar" />
+            <h2 style={{textAlign:'center',padding:0,margin:0}}>User: {Email}</h2>
           </div>
-        ))}
+          <LeaveRequestForm />
+          <div style={{width:'80%',margin:'0 auto'}}>
+            <h2>User Approval Details</h2>
+          </div>
+          {userRole === 'lead' || userRole === 'category_lead' ? (
+            <ul className={styles.userList} style={{width:'80%',margin:'0 auto'}}>
+              {filteredUsers.map((user, index) => (
+                <li className={styles.userListItem} key={index}>
+                  Email: {user.email}{' '}
+                  {user.approved ? (
+                    <span className={styles.approvedLabel}>Approved</span>
+                  ) : (
+                    <button
+                      className={styles.approveButton}
+                      onClick={() => handleApproveUser(user.email)}
+                    >
+                      Approve
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+        <div className={styles.leaveRequestContainer} style={{width:'80%',margin:'3rem auto'}}>
+          {CurrentUserLeaveDetails.map((leaveRequest, index) => (
+            <div className={styles.leaveRequestDetails} key={index}>
+              <h3 className={styles.leaveRequestHeading}>Leave Request Details</h3>
+              <p>Leave Date: {leaveRequest.date}</p>
+              <p>Reason: {leaveRequest.reason}</p>
+              <p>
+                Status:{' '}
+                {leaveRequest.leaveApproved ? (
+                  <span className={styles.approvedLabel}>Approved</span>
+                ) : (
+                  <span className={styles.notApprovedLabel}>Not Approved</span>
+                )}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
-      <LeaveRequestForm />
     </>
   );
 };
